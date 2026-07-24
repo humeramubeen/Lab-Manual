@@ -1,0 +1,32 @@
+class Foo {
+    private int stage;
+    public Foo() {
+        stage = 1; 
+    }
+
+    public synchronized void first(Runnable printFirst) throws InterruptedException{
+        printFirst.run();
+        
+        stage = 2;
+        notifyAll(); 
+    }
+
+    public synchronized void second(Runnable printSecond) throws InterruptedException {
+        while (stage != 2) {
+            wait();
+        }
+        
+        
+        printSecond.run();
+        
+        stage = 3; 
+        notifyAll(); 
+    }
+
+    public synchronized void third(Runnable printThird) throws InterruptedException{
+        while (stage != 3) {
+            wait();
+        }
+        printThird.run();
+    }
+}
