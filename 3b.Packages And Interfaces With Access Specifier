@@ -1,0 +1,75 @@
+import java.util.Scanner;
+
+public class PiCalculator {
+    
+    private int terms;
+    private double computedPi;
+
+    
+    public static final double STANDARD_PI = Math.PI;
+
+    
+    public PiCalculator(int terms) {
+        this.terms = terms;
+        this.computedPi = calculateLeibnizPi();
+    }
+
+    
+    private double calculateLeibnizPi() {
+        double piSum = 0.0;
+        for (int i = 0; i < terms; i++) {
+            if (i % 2 == 0) {
+                piSum += 4.0 / (2 * i + 1);
+            } else {
+                piSum -= 4.0 / (2 * i + 1);
+            }
+        }
+        return piSum;
+    }
+
+    
+    public double getPiValue() {
+        return this.computedPi;
+    }
+
+    
+    protected void displayPrecisionInfo() {
+        System.out.println("Protected Method - Displaying Precision Info:");
+        System.out.println("Precision used: " + terms + " terms");
+        System.out.println("Series used: Leibniz Series (4/1 - 4/3 + 4/5 - 4/7 + 4/9 ...)");
+    }
+
+    
+    public void displayPrivateDataInfo() {
+        System.out.println("Private Data - Accessed only within class:");
+        // Directly accessing the private variable 'computedPi' internally
+        System.out.println("Raw computed value (private): " + this.computedPi);
+    }
+
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("=== Pi Calculator using Access Specifiers ===");
+        System.out.print("Enter the number of terms for Pi approximation: ");
+        int inputTerms = scanner.nextInt();
+
+        
+        PiCalculator calc = new PiCalculator(inputTerms);
+
+        System.out.println("Calculating Pi using Leibniz Series...");
+
+        
+        System.out.println("Public Method - Displaying Result:");
+        System.out.println("Approximated value of Pi: " + calc.getPiValue());
+
+        
+        calc.displayPrecisionInfo();
+
+        
+        calc.displayPrivateDataInfo();
+
+        
+        scanner.close();
+    }
+}
