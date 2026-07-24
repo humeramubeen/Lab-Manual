@@ -1,0 +1,90 @@
+import java.awt.*;
+import java.awt.event.*;
+
+public class SimpleCalculator extends Frame implements ActionListener {
+    TextField tf1, tf2;
+    Label lblResult;
+    Button btnAdd, btnSub, btnMul, btnDiv, btnClear;
+
+    public SimpleCalculator() {
+        setTitle("Simple Calculator");
+        setLayout(new FlowLayout());
+        setSize(300, 220);
+
+        // Input Fields
+        add(new Label("First Number:"));
+        tf1 = new TextField(10);
+        add(tf1);
+
+        add(new Label("Second Number:"));
+        tf2 = new TextField(10);
+        add(tf2);
+
+        // Buttons
+        btnAdd = new Button("Add");
+        btnSub = new Button("Subtract");
+        btnMul = new Button("Multiply");
+        btnDiv = new Button("Divide");
+        btnClear = new Button("Clear");
+
+        add(btnAdd);
+        add(btnSub);
+        add(btnMul);
+        add(btnDiv);
+        add(btnClear);
+
+        // Result Label
+        lblResult = new Label("Result :                     ");
+        add(lblResult);
+
+        // Register Action Listeners
+        btnAdd.addActionListener(this);
+        btnSub.addActionListener(this);
+        btnMul.addActionListener(this);
+        btnDiv.addActionListener(this);
+        btnClear.addActionListener(this);
+
+        // Window Close Event
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
+
+        setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnClear) {
+            tf1.setText("");
+            tf2.setText("");
+            lblResult.setText("Result : ");
+            return;
+        }
+
+        try {
+            double n1 = Double.parseDouble(tf1.getText());
+            double n2 = Double.parseDouble(tf2.getText());
+
+            if (e.getSource() == btnAdd) {
+                lblResult.setText("Result : " + (n1 + n2));
+            } else if (e.getSource() == btnSub) {
+                lblResult.setText("Result : " + (n1 - n2));
+            } else if (e.getSource() == btnMul) {
+                lblResult.setText("Result : " + (n1 * n2));
+            } else if (e.getSource() == btnDiv) {
+                if (n2 == 0) {
+                    lblResult.setText("Result : Cannot divide by zero");
+                } else {
+                    lblResult.setText("Result : " + (n1 / n2));
+                }
+            }
+        } catch (Exception ex) {
+            lblResult.setText("Result : Invalid Input");
+        }
+    }
+
+    public static void main(String[] args) {
+        new SimpleCalculator();
+    }
+}
